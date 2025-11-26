@@ -8,56 +8,59 @@
 **Nuvora** is an open-source **skill exchange platform** built on the **PERN stack** (PostgreSQL, Express, React, Node.js) with **Prisma ORM**.  
 It allows users to **list skills, request exchanges, book sessions, chat in real-time, get instant notifications, and receive email updates** via Brevo
 
-**Live Demo:** [nuvora.onrender.com](https://nuvora.onrender.com)  
+**Live Demo:** [nuvora.onrender.com](https://nuvora.onrender.com)
 
 ---
 
 ## ✨ Features
 
-- 👤 **User Authentication** – JWT & Google OAuth login  
-- 📚 **Skill Management** – Add, edit, delete skills (offered & wanted)  
-- 📅 **Bookings System** – Request skills, accept/decline with availability validation  
-- 💬 **Real-Time Chat** – Socket.io based direct messaging  
-- 🔔 **Notifications** – Real-time + email (Brevo)  
-- ⭐ **Reviews & Ratings** – Rate & review skills  
-- 📌 **Bookmarks** – Save and manage favorite skills  
-- ☁️ **Media Storage** – Profile & skill images via **Cloudinary**  
-- 🗄️ **Database** – PostgreSQL on **Neon DB**  
-- 🌍 **Hosting** – Frontend & Backend on **Render Free Tier**  
+- 👤 **User Authentication** – JWT & Google OAuth login
+- 📚 **Skill Management** – Add, edit, delete skills (offered & wanted)
+- 📅 **Bookings System** – Request skills, accept/decline with availability validation
+- 💬 **Real-Time Chat** – Socket.io based direct messaging
+- 🔔 **Notifications** – Real-time + email (Brevo)
+- ⭐ **Reviews & Ratings** – Rate & review skills
+- 📌 **Bookmarks** – Save and manage favorite skills
+- ☁️ **Media Storage** – Profile & skill images via **Cloudinary**
+- 🗄️ **Database** – PostgreSQL on **Neon DB**
+- 🌍 **Hosting** – Frontend & Backend on **Render Free Tier**
 
 ---
 
 ## 🏗️ System Architecture
 
-![System Architecture](./frontend/src/assets/Nuvora_System_Architecture.png)  
+![System Architecture](./frontend/src/assets/Nuvora_System_Architecture.png)
 
 ---
 
 ## 🗂️ Database Schema (ER Diagram)
 
-![Database Schema](./frontend/src/assets/Nuvora_DB_Schema.png)  
+![Database Schema](./frontend/src/assets/Nuvora_DB_Schema.png)
 
 ---
 
 ## ⚙️ Tech Stack
 
 **Frontend**
-- React 19, Vite, TailwindCSS, Framer Motion  
-- React Router, Socket.io-client, Axios  
-- Toast Notifications (react-hot-toast, react-toastify)  
+
+- React 19, Vite, TailwindCSS, Framer Motion
+- React Router, Socket.io-client, Axios
+- Toast Notifications (react-hot-toast, react-toastify)
 
 **Backend**
-- Node.js, Express.js  
-- Prisma ORM + PostgreSQL (Neon DB)  
-- JWT, Passport (Google OAuth)  
-- Socket.io (real-time chat & notifications)  
-- Brevo (email service)  
-- Cloudinary (media storage)  
+
+- Node.js, Express.js
+- Prisma ORM + PostgreSQL (Neon DB)
+- JWT, Passport (Google OAuth)
+- Socket.io (real-time chat & notifications)
+- Brevo (email service)
+- Cloudinary (media storage)
 
 **Hosting**
-- Render (Frontend + Backend)  
-- Neon (Database)  
-- Cloudinary (Assets)  
+
+- Render (Frontend + Backend)
+- Neon (Database)
+- Cloudinary (Assets)
 
 ---
 
@@ -79,12 +82,12 @@ Nuvora/
 │── README.md
 ```
 
-
 ---
 
 ## 🔑 Environment Variables
 
 ### Backend (`/backend/.env`)
+
 ```env
 PORT=3000
 JWT_SECRET=your_secret_key
@@ -107,6 +110,7 @@ CLOUDINARY_API_SECRET=your_cloud_secret
 ```
 
 ### Frontend (`/frontend/.env`)
+
 ```env
 VITE_BACKEND_URL=http://localhost:3000
 ```
@@ -119,12 +123,13 @@ VITE_BACKEND_URL=http://localhost:3000
    cd nuvora
    ```
 2. **Setup Backend**
+
    ```bash
     cd backend
     npm install
     npx prisma migrate dev --name init
     npm run dev
-    ```
+   ```
 
 3. **Setup Frontend**
    ```bash
@@ -142,18 +147,25 @@ Nuvora is open source and welcomes contributions! 🎉
 1. **Fork the repository**
 
 2. **Create a new feature branch:**
+
    ```bash
    git checkout -b feature-name
 
+   ```
 
 3. **Commit your changes:**
+
    ```bash
    git commit -m "Added new feature"
 
+   ```
 
 4. **Push to your branch:**
+
    ```bash
    git push origin feature-name
+
+   ```
 
 5. **Open a Pull Request :)**
 
@@ -162,12 +174,10 @@ Nuvora is open source and welcomes contributions! 🎉
 Frontend: Render  
 Backend: Render  
 Database: NeonDB  
-Media Storage: Cloudinary  
+Media Storage: Cloudinary
 
 ---
 
 ## License
 
 This project is licensed under the MIT License.
-
-

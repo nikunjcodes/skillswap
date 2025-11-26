@@ -1,10 +1,9 @@
-import { registerSchema } from '../validation/registerSchema.js';
-import { z } from 'zod';
-import prisma from '../config/prismaClient.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import sendEmail from '../services/emailService.js';
-
+import { registerSchema } from "../validation/registerSchema.js";
+import { z } from "zod";
+import prisma from "../config/prismaClient.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import sendEmail from "../services/emailService.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -31,12 +30,12 @@ export const registerUser = async (req, res) => {
     });
 
     // Send welcome email
-    const subject = "Welcome to Nuvora!";
+    const subject = "Welcome to SkillSwap!";
     const htmlContent = `
       <h2>Hi ${name},</h2>
-      <p>Welcome to Nuvora! We're excited to have you on board.</p>
+      <p>Welcome to SkillSwap! We're excited to have you on board.</p>
       <p>Start exploring skills and connecting with others!</p>
-      <p>— The Nuvora Team</p>
+      <p>— The SkillSwap Team</p>
     `;
 
     try {
@@ -47,11 +46,9 @@ export const registerUser = async (req, res) => {
     }
 
     // 🔐 Generate JWT token
-    const token = jwt.sign(
-      { userId: createUser.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "2d" }
-    );
+    const token = jwt.sign({ userId: createUser.id }, process.env.JWT_SECRET, {
+      expiresIn: "2d",
+    });
 
     // Remove password from user object before sending
     const { password: _, ...userWithoutPassword } = createUser;
@@ -61,10 +58,9 @@ export const registerUser = async (req, res) => {
       user: userWithoutPassword,
       token, // 🔑 Send token
     });
-
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const formattedErrors = error.errors.map(err => ({
+      const formattedErrors = error.errors.map((err) => ({
         field: err.path[0],
         message: err.message,
       }));
@@ -80,33 +76,31 @@ export const registerUser = async (req, res) => {
   }
 };
 
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
 
+  try {
+    const userExist = await prisma.user.findUnique({
+      where: { email },
+    });
 
-
-export const loginUser = async (req, res) =>{
-    const { email, password } = req.body;
-
-    try{
-        const userExist = await prisma.user.findUnique({
-            where: {email},
-        });
-
-        if(!userExist){
-            return res.status(400).json({message: "Invalid credentials"});
-        }
-
-        const isValidPassword = await bcrypt.compare(password, userExist.password);
-
-        if(!isValidPassword){
-            return res.status(400).json({message: "Invalid credentials"});
-        }
-
-        const token = jwt.sign({userId: userExist.id}, process.env.JWT_SECRET, {expiresIn: "2d"});
-
-        res.status(200).json({message: "User logged in successfully!", token});
-
-    }catch(error){
-        console.error(error);
-        res.status(500).json({message: "Something went wrong!"});
+    if (!userExist) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
+
+    const isValidPassword = await bcrypt.compare(password, userExist.password);
+
+    if (!isValidPassword) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ userId: userExist.id }, process.env.JWT_SECRET, {
+      expiresIn: "2d",
+    });
+
+    res.status(200).json({ message: "User logged in successfully!", token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
 };

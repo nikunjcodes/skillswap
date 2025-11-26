@@ -1,19 +1,19 @@
-import SibApiV3Sdk from 'sib-api-v3-sdk';
+import SibApiV3Sdk from "sib-api-v3-sdk";
 
 // Configure API key
 const apiKey = process.env.BREVO_API_KEY;
 
-console.log("Brevo API Key loaded:", apiKey ? "YES" : "NO");  // Add this line for debugging
+console.log("Brevo API Key loaded:", apiKey ? "YES" : "NO"); // Add this line for debugging
 
-SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = apiKey;
+SibApiV3Sdk.ApiClient.instance.authentications["api-key"].apiKey = apiKey;
 
 const sendEmail = async (toEmail, subject, htmlContent) => {
   try {
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
     const sender = {
-      email: 'nuvora.app@gmail.com', // Must be verified in Brevo
-      name: 'Nuvora',
+      email: "SkillSwap.app@gmail.com", // Must be verified in Brevo
+      name: "SkillSwap",
     };
 
     const receivers = [{ email: toEmail }];
@@ -25,9 +25,9 @@ const sendEmail = async (toEmail, subject, htmlContent) => {
       htmlContent,
     });
 
-    console.log('✅ Email sent successfully');
+    console.log("✅ Email sent successfully");
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error("❌ Error sending email:", error);
     throw error;
   }
 };

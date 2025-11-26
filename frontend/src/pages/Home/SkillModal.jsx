@@ -20,7 +20,7 @@ const categories = [
   "Life Coach",
   "Art",
   "Music",
-  "Others"
+  "Others",
 ];
 
 export default function SkillWizard({ isOpen, onClose }) {
@@ -93,8 +93,6 @@ export default function SkillWizard({ isOpen, onClose }) {
       setError(err.response?.data?.message || "Failed to save skill profile.");
     }
   };
-
-
 
   if (!isOpen) return null;
 
@@ -361,15 +359,13 @@ export default function SkillWizard({ isOpen, onClose }) {
                   onClick={async () => {
                     const success = await handleSubmit();
                     if (success) {
-                      if (onComplete) onComplete();  // ✅ call parent to close modal + reload
+                      if (onComplete) onComplete(); // ✅ call parent to close modal + reload
                     }
                   }}
                   className="bg-green-700 hover:bg-green-900 text-white px-6 py-2 rounded-lg"
                 >
                   Finish
                 </button>
-
-
               </div>
               <div className="text-right mt-2">
                 <button
@@ -384,7 +380,6 @@ export default function SkillWizard({ isOpen, onClose }) {
               </div>
             </div>
           )}
-
         </div>
 
         {error && <p className="text-red-500 text-sm mt-4">{error}</p>}

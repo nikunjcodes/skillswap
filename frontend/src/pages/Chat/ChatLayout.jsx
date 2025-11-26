@@ -86,7 +86,9 @@ const ChatLayout = () => {
         });
 
         const sorted = updatedRooms.sort((a, b) => {
-          return new Date(b.lastMessageTime || 0) - new Date(a.lastMessageTime || 0);
+          return (
+            new Date(b.lastMessageTime || 0) - new Date(a.lastMessageTime || 0)
+          );
         });
 
         setFilteredRooms(sorted);
@@ -140,17 +142,11 @@ const ChatLayout = () => {
 
   // console.log("Rooms are : ", rooms);
 
-  
-
-
-
-
   return (
     // <div className="min-h-screen bg-gray-100 pt-5 sm:px-10 pb-6">
     // [calc(100vh-5rem)]
     // New (fixed height layout)
     <div className="h-full bg-[#F9F7F1] pt-0 sm:pt-5 sm:px-10 pb-0 overflow-hidden">
-
       <div className="h-full bg-white rounded-sm shadow-lg overflow-hidden flex flex-col sm:flex-row">
         {/* Sidebar */}
         <div
@@ -160,7 +156,9 @@ const ChatLayout = () => {
         >
           {/* Header */}
           <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-            <span className="text-lg font-semibold text-gray-800">Messaging</span>
+            <span className="text-lg font-semibold text-gray-800">
+              Messaging
+            </span>
           </div>
 
           {/* Search */}
@@ -181,9 +179,6 @@ const ChatLayout = () => {
           <div className="flex-1 overflow-y-auto">
             {filteredRooms.length > 0 ? (
               filteredRooms.map((room) => (
-                
-
-
                 <div
                   key={room.roomId}
                   onClick={() => setActiveRoom(room)}
@@ -226,7 +221,9 @@ const ChatLayout = () => {
                 </div>
               ))
             ) : (
-              <div className="p-4 text-gray-400 text-xs">No chats available</div>
+              <div className="p-4 text-gray-400 text-xs">
+                No chats available
+              </div>
             )}
           </div>
         </div>

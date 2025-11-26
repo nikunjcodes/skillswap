@@ -1,8 +1,7 @@
 // src/components/ui/FullPageLoader.jsx
 
-import React from 'react';
-import NuvoraPNG from '../../assets/Nuvora_2.png';
-
+import React from "react";
+import NuvoraPNG from "../../assets/Nuvora_2.png";
 
 const FullPageLoader = () => {
   return (

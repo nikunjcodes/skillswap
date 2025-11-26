@@ -1,42 +1,42 @@
 // TestimonialSlider.jsx
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/pagination";
 
 const testimonials = [
   {
-    text: "Nuvora helped me connect with amazing mentors worldwide. I shared my design skills and in return, learned fluent Spanish — such a unique experience!",
+    text: "SkillSwap helped me connect with amazing mentors worldwide. I shared my design skills and in return, learned fluent Spanish — such a unique experience!",
     name: "Sophia L.",
     role: "UX Designer",
     rating: "4.9",
     avatar: "https://randomuser.me/api/portraits/women/65.jpg",
   },
   {
-    text: "I never thought I could teach coding while learning guitar at the same time. Nuvora makes skill exchange fun, simple, and truly global.",
+    text: "I never thought I could teach coding while learning guitar at the same time. SkillSwap makes skill exchange fun, simple, and truly global.",
     name: "Rohan M.",
     role: "Software Engineer",
     rating: "5.0",
     avatar: "https://randomuser.me/api/portraits/men/75.jpg",
   },
   {
-    text: "Through Nuvora, I connected with a life coach in London who helped me build confidence while I taught her Hindi. It’s a true win-win platform.",
+    text: "Through SkillSwap, I connected with a life coach in London who helped me build confidence while I taught her Hindi. It’s a true win-win platform.",
     name: "Aisha K.",
     role: "Student",
     rating: "4.8",
     avatar: "https://randomuser.me/api/portraits/women/32.jpg",
   },
   {
-    text: "I exchanged my photography lessons for piano sessions. The flexibility and the community vibe on Nuvora are unmatched!",
+    text: "I exchanged my photography lessons for piano sessions. The flexibility and the community vibe on SkillSwap are unmatched!",
     name: "Daniel R.",
     role: "Photographer",
     rating: "4.9",
     avatar: "https://randomuser.me/api/portraits/men/41.jpg",
   },
   {
-    text: "Nuvora gave me the chance to share my yoga practice while learning digital marketing. I love how it empowers people to grow together.",
+    text: "SkillSwap gave me the chance to share my yoga practice while learning digital marketing. I love how it empowers people to grow together.",
     name: "Maya P.",
     role: "Yoga Instructor",
     rating: "5.0",

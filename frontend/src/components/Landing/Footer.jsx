@@ -9,13 +9,16 @@ function Footer() {
   return (
     <div>
       {/* 📌 Footer */}
-      <footer className="bg-black text-gray-400 py-12 border-t border-gray-800" id="contact">
+      <footer
+        className="bg-black text-gray-400 py-12 border-t border-gray-800"
+        id="contact"
+      >
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 px-6">
           {/* Brand */}
           <div>
-            <h4 className="text-white font-bold text-2xl mb-4">Nuvora</h4>
+            <h4 className="text-white font-bold text-2xl mb-4">SkillSwap</h4>
             <p className="text-gray-500 text-sm leading-6">
-              Exchange skills, not money. A global knowledge-sharing platform 
+              Exchange skills, not money. A global knowledge-sharing platform
               where learning has no boundaries.
             </p>
           </div>
@@ -25,7 +28,10 @@ function Footer() {
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#features" className="hover:text-indigo-400 transition">
+                <a
+                  href="#features"
+                  className="hover:text-indigo-400 transition"
+                >
                   Features
                 </a>
               </li>
@@ -35,7 +41,10 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#categories" className="hover:text-indigo-400 transition">
+                <a
+                  href="#categories"
+                  className="hover:text-indigo-400 transition"
+                >
                   Categories
                 </a>
               </li>
@@ -45,7 +54,7 @@ function Footer() {
           {/* Connect */}
           <div>
             <h4 className="text-white font-semibold mb-4">Connect</h4>
-            <p className="text-sm">Email: hello@nuvora.com</p>
+            <p className="text-sm">Email: hello@SkillSwap.com</p>
             <div className="flex space-x-4 mt-4 text-lg">
               <a href="#" className="hover:text-cyan-400 transition">
                 <FaGlobe />
@@ -64,13 +73,12 @@ function Footer() {
               >
                 <FaLinkedin />
               </a>
-
             </div>
           </div>
         </div>
 
         <div className="text-center mt-10 text-gray-600 text-sm border-t border-gray-800 pt-6">
-          © {new Date().getFullYear()} Nuvora. All rights reserved.
+          © {new Date().getFullYear()} SkillSwap. All rights reserved.
         </div>
       </footer>
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { UserPen, Search, Handshake } from "lucide-react"; 
+import { UserPen, Search, Handshake } from "lucide-react";
 import { TypewriterEffect } from "../../ui/typewriter-effect";
 
 export default function HowItWorks() {
@@ -31,7 +31,7 @@ export default function HowItWorks() {
         <TypewriterEffect
           words={[
             { text: "How ", className: "text-white" },
-            { text: "Nuvora ", className: "text-indigo-400" },
+            { text: "SkillSwap", className: "text-indigo-400" },
             { text: "Works?", className: "text-white" },
           ]}
           className="text-4xl md:text-6xl font-extrabold"

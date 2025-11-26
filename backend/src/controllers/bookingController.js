@@ -1,11 +1,10 @@
-import prisma from '../config/prismaClient.js';
-import { io, onlineUsers } from '../server.js';
-import sendEmail from '../services/emailService.js';
-
+import prisma from "../config/prismaClient.js";
+import { io, onlineUsers } from "../server.js";
+import sendEmail from "../services/emailService.js";
 
 export const createBooking = async (req, res) => {
   if (!req.user || !req.user.userId) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   const {
@@ -50,7 +49,8 @@ export const createBooking = async (req, res) => {
 
     if (existingBooking) {
       return res.status(400).json({
-        message: "You already have a booking for this skill at the specified time.",
+        message:
+          "You already have a booking for this skill at the specified time.",
       });
     }
 
@@ -77,18 +77,24 @@ export const createBooking = async (req, res) => {
     });
 
     if (receiver?.email) {
-      const subject = "📬 New Booking Request on Nuvora";
+      const subject = "📬 New Booking Request on SkillSwap";
       const htmlContent = `
-        <h3>Hello ${receiver.name || 'there'},</h3>
-        <p><strong>${booking.user.name}</strong> has requested a skill exchange session with you.</p>
+        <h3>Hello ${receiver.name || "there"},</h3>
+        <p><strong>${
+          booking.user.name
+        }</strong> has requested a skill exchange session with you.</p>
         <p><strong>Offered:</strong> ${booking.skillOfferedName}</p>
         <p><strong>Wanted:</strong> ${booking.skillWantedName}</p>
         <p><strong>Date:</strong> ${booking.date.toDateString()}</p>
         <p><strong>Time:</strong> ${booking.time.toLocaleTimeString()}</p>
-        ${booking.message ? `<p><strong>Message:</strong> ${booking.message}</p>` : ''}
+        ${
+          booking.message
+            ? `<p><strong>Message:</strong> ${booking.message}</p>`
+            : ""
+        }
         <br>
-        <p>Please log in to your Nuvora account to view and respond to the request.</p>
-        <p>— Nuvora Team</p>
+        <p>Please log in to your SkillSwap account to view and respond to the request.</p>
+        <p>— SkillSwap Team</p>
       `;
 
       try {
@@ -97,7 +103,6 @@ export const createBooking = async (req, res) => {
         console.error("❌ Failed to send email:", err);
       }
     }
-
 
     // ✅ Create notification in DB
     await prisma.notification.create({
@@ -109,10 +114,6 @@ export const createBooking = async (req, res) => {
     });
 
     console.log("Booking skill: ", booking.skillOfferedName);
-
-
-
-
 
     // ✅ Send socket notification
     const receiverSocketId = onlineUsers.get(String(receiverId));
@@ -133,15 +134,12 @@ export const createBooking = async (req, res) => {
         status: booking.status,
       });
 
-
       io.to(receiverSocketId).emit("newNotification", {
         type: "booking",
         content: `${booking.user.name} requested a booking: Offers ${booking.skillOfferedName} in exchange for ${booking.skillWantedName}`,
         timestamp: new Date().toISOString(),
       });
     }
-
-
 
     res.status(201).json({ message: "Booking created successfully!", booking });
   } catch (error) {
@@ -150,124 +148,122 @@ export const createBooking = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-  
-  
-
 export const getBookings = async (req, res) => {
-    const userId = req.user.userId;
+  const userId = req.user.userId;
 
-    try {
-        const bookings = await prisma.booking.findMany({
-            where: { userId },
-            include: {
-              user: true,
-              skill: {
-                include: {
-                  reviews: true,
-                },
-              },
-            }, // Optionally include skill details
-        });
+  try {
+    const bookings = await prisma.booking.findMany({
+      where: { userId },
+      include: {
+        user: true,
+        skill: {
+          include: {
+            reviews: true,
+          },
+        },
+      }, // Optionally include skill details
+    });
 
-        res.status(200).json({ message: "Bookings retrieved successfully!", bookings });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Something went wrong!" });
-    }
+    res
+      .status(200)
+      .json({ message: "Bookings retrieved successfully!", bookings });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
 };
-
 
 export const cancelBooking = async (req, res) => {
-    const bookingId = parseInt(req.params.id, 10); // Extract booking ID from the request parameters
-    const userId = req.user.userId; // Extract user ID from the authenticated user token
+  const bookingId = parseInt(req.params.id, 10); // Extract booking ID from the request parameters
+  const userId = req.user.userId; // Extract user ID from the authenticated user token
 
-    try {
-        // Check if the booking exists
-        const booking = await prisma.booking.findUnique({
-            where: { id: bookingId },
-        });
+  try {
+    // Check if the booking exists
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
 
-        if (!booking) {
-            return res.status(404).json({ message: "Booking not found!" });
-        }
-
-        // Verify that the booking belongs to the authenticated user
-        if (booking.userId !== userId) {
-            return res.status(403).json({ message: "You can only cancel your own bookings!" });
-        }
-
-        // Cancel the booking by updating its status
-        await prisma.booking.update({
-            where: { id: bookingId },
-            data: { status: "Cancelled" },
-        });
-
-        res.status(200).json({ message: "Booking cancelled successfully!" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Something went wrong while cancelling the booking!" });
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found!" });
     }
-};
 
+    // Verify that the booking belongs to the authenticated user
+    if (booking.userId !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You can only cancel your own bookings!" });
+    }
+
+    // Cancel the booking by updating its status
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: { status: "Cancelled" },
+    });
+
+    res.status(200).json({ message: "Booking cancelled successfully!" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong while cancelling the booking!" });
+  }
+};
 
 export const getRequestsOnMySkills = async (req, res) => {
-    const userId = req.user.userId; // Current logged-in user (skill owner)
+  const userId = req.user.userId; // Current logged-in user (skill owner)
 
-    try {
-        // Step 1: Find all skills offered by the user
-        const mySkills = await prisma.skill.findMany({
-            where: { userId },
-            select: { id: true }, // Only need skill IDs
-        });
+  try {
+    // Step 1: Find all skills offered by the user
+    const mySkills = await prisma.skill.findMany({
+      where: { userId },
+      select: { id: true }, // Only need skill IDs
+    });
 
-        const mySkillIds = mySkills.map(skill => skill.id);
+    const mySkillIds = mySkills.map((skill) => skill.id);
 
-        if (mySkillIds.length === 0) {
-            return res.status(200).json({ message: "You haven't offered any skills yet.", bookings: [] });
-        }
-
-        // Step 2: Find all bookings made on these skills
-        const bookings = await prisma.booking.findMany({
-          where: {
-            skillId: { in: mySkillIds },
-          },
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-                bio: true,
-                profilePicture: true,
-                location: true,
-              },
-            },
-            skill: true, // keep as-is or use "select" if needed
-          },
-        });
-
-
-        res.status(200).json({ message: "Bookings on your skills retrieved successfully!", bookings });
-    } catch (error) {
-        console.error("Error fetching booking requests:", error);
-        res.status(500).json({ message: "Something went wrong while fetching booking requests!" });
+    if (mySkillIds.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "You haven't offered any skills yet.", bookings: [] });
     }
-};
 
+    // Step 2: Find all bookings made on these skills
+    const bookings = await prisma.booking.findMany({
+      where: {
+        skillId: { in: mySkillIds },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            bio: true,
+            profilePicture: true,
+            location: true,
+          },
+        },
+        skill: true, // keep as-is or use "select" if needed
+      },
+    });
+
+    res.status(200).json({
+      message: "Bookings on your skills retrieved successfully!",
+      bookings,
+    });
+  } catch (error) {
+    console.error("Error fetching booking requests:", error);
+    res.status(500).json({
+      message: "Something went wrong while fetching booking requests!",
+    });
+  }
+};
 
 export const updateBookingStatus = async (req, res) => {
   const bookingId = parseInt(req.params.id);
   const { status } = req.body;
 
-  if (!['Pending', 'Confirmed', 'Cancelled'].includes(status)) {
+  if (!["Pending", "Confirmed", "Cancelled"].includes(status)) {
     return res.status(400).json({ message: "Invalid status" });
   }
 
@@ -277,8 +273,8 @@ export const updateBookingStatus = async (req, res) => {
       where: { id: bookingId },
       data: { status },
       include: {
-        user: true,   // requester
-        skill: true,  // skill details
+        user: true, // requester
+        skill: true, // skill details
       },
     });
 
@@ -299,36 +295,37 @@ export const updateBookingStatus = async (req, res) => {
     });
 
     // ✅ Send email to the requester (booking.user)
-      if (booking?.user?.email) {
-        const subject =
-          status === "Confirmed"
-            ? "🎉 Your Booking Has Been Confirmed!"
-            : status === "Cancelled"
-            ? "❌ Your Booking Was Cancelled"
-            : "📋 Booking Status Updated";
+    if (booking?.user?.email) {
+      const subject =
+        status === "Confirmed"
+          ? "🎉 Your Booking Has Been Confirmed!"
+          : status === "Cancelled"
+          ? "❌ Your Booking Was Cancelled"
+          : "📋 Booking Status Updated";
 
-        const htmlContent = `
-          <h3>Hello ${booking.user.name || 'there'},</h3>
-          <p>Your booking for the skill <strong>${booking.skill.name}</strong> has been <strong>${status}</strong>.</p>
+      const htmlContent = `
+          <h3>Hello ${booking.user.name || "there"},</h3>
+          <p>Your booking for the skill <strong>${
+            booking.skill.name
+          }</strong> has been <strong>${status}</strong>.</p>
           <p><strong>Date:</strong> ${booking.date.toDateString()}</p>
           <p><strong>Time:</strong> ${booking.time.toLocaleTimeString()}</p>
           <br>
-          <p>Please log in to your Nuvora account for more details.</p>
-          <p>— Nuvora Team</p>
+          <p>Please log in to your SkillSwap account for more details.</p>
+          <p>— SkillSwap Team</p>
         `;
 
-        try {
-          await sendEmail(booking.user.email, subject, htmlContent);
-        } catch (err) {
-          console.error("❌ Failed to send status update email:", err);
-        }
+      try {
+        await sendEmail(booking.user.email, subject, htmlContent);
+      } catch (err) {
+        console.error("❌ Failed to send status update email:", err);
       }
-
+    }
 
     // Emit real-time update to the requester
     const requesterSocketId = onlineUsers.get(String(booking.userId));
     if (requesterSocketId) {
-      io.to(requesterSocketId).emit('bookingStatusUpdated', {
+      io.to(requesterSocketId).emit("bookingStatusUpdated", {
         id: booking.id,
         status: booking.status,
         date: booking.date,
@@ -339,9 +336,8 @@ export const updateBookingStatus = async (req, res) => {
         },
       });
 
-
       // Emit new notification event
-      io.to(requesterSocketId).emit('newNotification', {
+      io.to(requesterSocketId).emit("newNotification", {
         type: "booking",
         content:
           status === "Confirmed"
